@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CheckCircle2, Home, Copy, ClipboardCheck, AlertCircle, MessageCircle } from 'lucide-react';
+import { CheckCircle2, Home, Copy, ClipboardCheck, AlertCircle, MessageCircle, Send } from 'lucide-react';
 
 interface Props {
   orderId: string;
@@ -27,7 +27,12 @@ export default function SuccessScreen({ orderId, groupUrl, regionName, message, 
     }
   };
 
-  const openGroup = () => {
+  const copyAndOpenGroup = async () => {
+    try {
+      await navigator.clipboard.writeText(message);
+    } catch {
+      // clipboard may fail; user can copy manually from textarea
+    }
     setSent(true);
     window.open(groupUrl, '_blank', 'noopener,noreferrer');
   };
@@ -42,7 +47,7 @@ export default function SuccessScreen({ orderId, groupUrl, regionName, message, 
 
       <h2 className="text-2xl font-extrabold text-dj-ink">Pesanan Siap Dikirim</h2>
       <p className="mt-2 text-sm leading-relaxed text-dj-muted">
-        Salin teks pesanan di bawah, lalu buka grup WhatsApp {regionName || 'wilayahmu'} dan tempel pesanannya.
+        Salin teks pesanan, lalu buka grup WhatsApp {regionName || 'wilayahmu'} dan tempel pesanannya.
       </p>
 
       <div className="mt-6 w-full rounded-2xl bg-white p-5 shadow-soft">
@@ -56,18 +61,20 @@ export default function SuccessScreen({ orderId, groupUrl, regionName, message, 
             <span className="text-xs font-bold uppercase tracking-wide text-amber-500">Menunggu Konfirmasi</span>
           </div>
         </div>
+        {regionName && (
+          <div className="mt-3 flex items-center gap-2 border-t border-black/5 pt-3">
+            <MessageCircle size={15} className="text-dj-accent" />
+            <span className="text-xs font-bold text-dj-ink">Grup Tujuan: {regionName}</span>
+          </div>
+        )}
       </div>
 
       <div className="mt-5 w-full space-y-3">
-        <button onClick={copyMessage} className="btn-primary w-full">
-          {copied ? <><ClipboardCheck size={18} /> Tersalin! Lanjut ke Grup</> : <><Copy size={18} /> Salin Teks Pesanan</>}
+        <button onClick={copyAndOpenGroup} disabled={!groupUrl} className="btn-primary w-full">
+          <Send size={18} /> Salin & Kirim ke Grup {regionName || 'Wilayah'}
         </button>
-        <button
-          onClick={openGroup}
-          disabled={!groupUrl}
-          className="btn-ghost w-full"
-        >
-          <MessageCircle size={18} /> Buka Grup WhatsApp {regionName || 'Wilayah'}
+        <button onClick={copyMessage} className="btn-ghost w-full">
+          {copied ? <><ClipboardCheck size={18} /> Tersalin!</> : <><Copy size={18} /> Salin Teks Saja</>}
         </button>
       </div>
 
@@ -75,9 +82,9 @@ export default function SuccessScreen({ orderId, groupUrl, regionName, message, 
         <div className="mt-4 flex items-start gap-2 rounded-2xl bg-amber-50 p-4 text-left">
           <AlertCircle size={18} className="mt-0.5 shrink-0 text-amber-500" />
           <div>
-            <p className="text-sm font-bold text-amber-700">Grup sudah terbuka!</p>
+            <p className="text-sm font-bold text-amber-700">Teks sudah tersalin & grup sudah terbuka!</p>
             <p className="mt-1 text-xs leading-relaxed text-amber-600">
-              Sekarang <span className="font-bold">tahan kolom pesan</span> di grup, pilih <span className="font-bold">Tempel</span>, lalu <span className="font-bold">Kirim</span>.
+              Sekarang di grup {regionName}, <span className="font-bold">tahan kolom pesan</span>, pilih <span className="font-bold">Tempel</span>, lalu <span className="font-bold">Kirim</span>.
             </p>
           </div>
         </div>
