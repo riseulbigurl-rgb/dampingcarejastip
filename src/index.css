@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-dj-bg text-dj-ink font-sans antialiased;
+  }
+  input, select, textarea {
+    @apply text-dj-ink;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-dj-accent px-6 py-3.5 text-base font-semibold text-white shadow-accent transition-all duration-200 hover:bg-dj-accentDark active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-dj-ink shadow-softer transition-all duration-200 hover:bg-dj-bg active:scale-[0.98];
+  }
+  .card {
+    @apply rounded-3xl bg-white shadow-soft;
+  }
+  .field-label {
+    @apply mb-1.5 block text-sm font-semibold text-dj-ink;
+  }
+  .field-input {
+    @apply w-full rounded-2xl border border-black/5 bg-dj-bg/40 px-4 py-3 text-[15px] text-dj-ink placeholder:text-dj-muted/70 transition-all duration-200 focus:border-dj-accent focus:bg-white focus:outline-none focus:ring-4 focus:ring-dj-accent/15;
+  }
+  .section-title {
+    @apply text-lg font-bold text-dj-ink;
+  }
+  .section-eyebrow {
+    @apply text-xs font-bold uppercase tracking-[0.18em] text-dj-accent;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #d8d8f8 0%, #e4e4ff 40%, #d8d8f8 80%);
+  background-size: 800px 100%;
+  @apply animate-shimmer rounded-xl;
+}
