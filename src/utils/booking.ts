@@ -25,6 +25,8 @@ export interface PasienOrderData extends CommonOrderData {
   kebutuhanUntuk: 'Pasien' | 'Keluarga Pasien' | 'Lainnya' | '';
   lokasiTujuan: 'Rumah Sakit' | 'Rumah' | 'Kost' | 'Lainnya' | '';
   namaRs: string;
+  bangsalKamar: string;
+  nomorBed: string;
   ketLokasi: string;
 }
 

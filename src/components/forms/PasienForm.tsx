@@ -41,6 +41,10 @@ export default function PasienForm({ data, onChange, onBack, onSubmit, regionId 
     { label: 'Kebutuhan Untuk', value: data.kebutuhanUntuk },
     { label: 'Lokasi Tujuan', value: data.lokasiTujuan === 'Rumah Sakit' ? `Rumah Sakit — ${data.namaRs}` : data.lokasiTujuan === 'Lainnya' ? `Lainnya — ${data.ketLokasi}` : data.lokasiTujuan },
   ];
+  if (data.lokasiTujuan === 'Rumah Sakit') {
+    if (data.bangsalKamar) extraRows.push({ label: 'Bangsal/Kamar', value: data.bangsalKamar });
+    if (data.nomorBed) extraRows.push({ label: 'Nomor Bed', value: data.nomorBed });
+  }
 
   return (
     <div className="space-y-5">
@@ -62,9 +66,17 @@ export default function PasienForm({ data, onChange, onBack, onSubmit, regionId 
           <RadioGroup value={data.lokasiTujuan} onChange={(v) => set({ lokasiTujuan: v as PasienOrderData['lokasiTujuan'] })} options={LOKASI_OPTS} />
         </Field>
         {data.lokasiTujuan === 'Rumah Sakit' && (
-          <Field label="Nama Rumah Sakit" required>
-            <TextInput value={data.namaRs} onChange={(v) => set({ namaRs: v })} placeholder="Contoh: RS Dr. Moewardi" />
-          </Field>
+          <>
+            <Field label="Nama Rumah Sakit" required>
+              <TextInput value={data.namaRs} onChange={(v) => set({ namaRs: v })} placeholder="Contoh: RS Dr. Moewardi" />
+            </Field>
+            <Field label="Bangsal / Kamar">
+              <TextInput value={data.bangsalKamar} onChange={(v) => set({ bangsalKamar: v })} placeholder="Contoh: Bangsal Cendana, Kamar 302" />
+            </Field>
+            <Field label="Nomor Bed">
+              <TextInput value={data.nomorBed} onChange={(v) => set({ nomorBed: v })} placeholder="Contoh: Bed 5" />
+            </Field>
+          </>
         )}
         {data.lokasiTujuan === 'Lainnya' && (
           <Field label="Keterangan Lokasi" required>
@@ -103,6 +115,6 @@ export function emptyPasien(): PasienOrderData {
   return {
     name: '', whatsapp: '', date: '', time: '', location: '', regionId: '',
     items: [emptyItem()], notes: '',
-    patientName: '', kebutuhanUntuk: '', lokasiTujuan: '', namaRs: '', ketLokasi: '',
+    patientName: '', kebutuhanUntuk: '', lokasiTujuan: '', namaRs: '', bangsalKamar: '', nomorBed: '', ketLokasi: '',
   };
 }

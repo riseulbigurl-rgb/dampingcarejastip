@@ -181,6 +181,8 @@ function buildExtraLines(
     if (d.lokasiTujuan) {
       lines.push(`Lokasi Tujuan: ${d.lokasiTujuan}`);
       if (d.lokasiTujuan === 'Rumah Sakit' && d.namaRs) lines.push(`Nama RS: ${d.namaRs}`);
+      if (d.lokasiTujuan === 'Rumah Sakit' && d.bangsalKamar) lines.push(`Bangsal/Kamar: ${d.bangsalKamar}`);
+      if (d.lokasiTujuan === 'Rumah Sakit' && d.nomorBed) lines.push(`Nomor Bed: ${d.nomorBed}`);
       if (d.lokasiTujuan === 'Lainnya' && d.ketLokasi) lines.push(`Keterangan Lokasi: ${d.ketLokasi}`);
     }
   } else if (category === 'ibu-bayi') {
